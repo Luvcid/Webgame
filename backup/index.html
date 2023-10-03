@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ping Pong</title>
+    <link rel="stylesheet" href="css/pingpong.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Ping Pong</h1>
+    </header>
+    <div id="timer">
+        <p>Waktu tersisa: <span id="countdown">10</span> detik</p>
+        <button id="startButton">Mulai</button>
+        <button id="resetButton"><a href="index.html">Reset</a></button>
+    </div>
+
+    <div class="scoreHeading" id="scoreHeading">Score</div>
+
+    <div id="scores" class="score">
+        <div class="playerSection">
+            <p>Player A: <span id="score-a">0</span></p>
+        </div>
+        <div class="computerSection">
+            <p>Player B: <span id="score-b">0</span></p>
+        </div>
+    </div>
+    
+    <script>
+        // Variabel untuk menyimpan waktu tersisa dalam detik
+        let timeLeft = 10;
+        let timerInterval; // Variabel untuk menyimpan interval timer
+
+        // Fungsi untuk memperbarui tampilan timer
+        function updateTimer() {
+            document.getElementById("countdown").textContent = timeLeft;
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                document.getElementById("startButton").disabled = false;
+                // Redirect ke link lain saat waktu habis (ganti URL sesuai kebutuhan)
+                window.location.href = 'leaderboard.html';
+            }
+        }
+
+        // Fungsi untuk memulai timer
+        function startTimer() {
+            document.getElementById("startButton").disabled = true;
+            timerInterval = setInterval(function () {
+                timeLeft--;
+                updateTimer();
+            }, 1000); // Memperbarui setiap 1 detik
+        }
+
+        // Fungsi untuk mereset timer
+        function resetTimer() {
+            clearInterval(timerInterval);
+            timeLeft = 10; // Ganti dengan waktu awal yang diinginkan
+            updateTimer();
+            document.getElementById("startButton").disabled = false;
+        }
+
+        // Mengaitkan fungsi dengan tombol-tombol
+        document.getElementById("startButton").addEventListener("click", startTimer);
+        document.getElementById("resetButton").addEventListener("click", resetTimer);
+
+        // Memperbarui tampilan awal timer
+        updateTimer();
+
+        // Variabel untuk menyimpan skor
+        let scoreA = 0;
+        let scoreB = 0;
+
+        // Fungsi untuk memperbarui tampilan skor
+        function updateScore() {
+            document.getElementById("score-a").textContent = scoreA;
+            document.getElementById("score-b").textContent = scoreB;
+        }
+
+        // Fungsi untuk menambah skor pemain A
+        document.getElementById("increase-a").addEventListener("click", function() {
+            scoreA++;
+            updateScore();
+        });
+
+        // Fungsi untuk menambah skor pemain B
+        document.getElementById("increase-b").addEventListener("click", function() {
+            scoreB++;
+            updateScore();
+			
+
+        });
+    </script>
+
+    <div id="game">
+        <div id="playground">
+            <div class="paddle-hand right"></div>
+            <div class="paddle-hand left"></div>
+            <div id="paddleA" class="paddle"></div>
+            <div id="paddleB" class="paddle"></div>
+            <div id="ball"></div>
+        </div>
+    </div>
+
+
+    <script src="js/pingpong.js"></script>
+</body>
+</html>
